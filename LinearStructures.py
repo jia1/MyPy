@@ -65,19 +65,36 @@ class LinkedList:
             self.tail = tail # direct reference
             self.length += 1 # direct reference
     
-    # optimise by evaluating index versus length
-    def insert(self, index, data):
-        pointer = self.get_head()
-        iteration = 0
-        if iteration == index:
+    def insert(self, index, data): 
+        last_index = self.get_length() - 1
+        if index > last_index:
+            return False
+        if index == 0:
             self.prepend(data)
             return True
-        elif index == self.get_length() - 1:
+        elif index == last_index:
             self.append(data)
             return True
         else:
-            # incomplete
-            return False
+            if index <= last_index // 2:
+                iteration = 0
+                pointer = self.get_head()
+                while iteration < index:
+                    pointer = pointer.get_next()
+                    iteration += 1
+            else:
+                iteration = last_index
+                pointer = self.get_tail()
+                while iteration >= last_index:
+                    pointer = pointer.get_prev()
+                    iteration -= 1
+            node = ListNode(data)
+            node.set_prev(pointer.get_prev())
+            node.set_next(pointer)
+            pointer.get_prev().set_next(node)
+            pointer.set_prev(node)
+            self.length += 1
+            return True
     
     def delete_first(self):
         if self.get_head() == None:
@@ -94,9 +111,47 @@ class LinkedList:
         self.length -= 1
         return True
     
-    def delete(self, data, delete_all = False):
-        # incomplete
-        pass
+    def delete(self, data, delete_all = False, from_back = False):
+        if from_back:
+            pointer = self.get_tail()
+            if delete_all:
+                deleted = False
+                while pointer != None:
+                    if pointer.get_data() == data:
+                        pointer.get_next().set_prev(pointer.get_next())
+                        if pointer.get_prev() != None:
+                            pointer.get_prev().set_next(pointer.get_next())
+                        deleted = True
+                    pointer = pointer.get_prev()
+                return deleted
+            else:
+                while pointer != None:
+                    if pointer.get_data() == data:
+                        pointer.get_next().set_prev(pointer.get_next())
+                        if pointer.get_prev() != None:
+                            pointer.get_prev().set_next(pointer.get_next())
+                        return True
+                    pointer = pointer.get_prev()
+        else:
+            pointer = self.get_head()
+            if delete_all:
+                deleted = False
+                while pointer != None:
+                    if pointer.get_data() == data:
+                        pointer.get_prev().set_next(pointer.get_next())
+                        if pointer.get_next() != None:
+                            pointer.get_next().set_prev(pointer.get_prev())
+                        deleted = True
+                    pointer = pointer.get_next()
+                return deleted
+            else:
+                while pointer != None:
+                    if pointer.get_data() == data:
+                        pointer.get_prev().set_next(pointer.get_next())
+                        if pointer.get_next() != None:
+                            pointer.get_next().set_prev(pointer.get_prev())
+                        return True
+                    pointer = pointer.get_next()
     
     def delete_at(self, index):
         # incomplete
