@@ -62,8 +62,8 @@ class LinkedList:
                 pointer = pointer.get_next()
             tail.set_prev(pointer)
             pointer.set_next(tail)
-            pointer.tail = tail # direct reference
-        self.length += 1        # direct reference
+            self.tail = tail # direct reference
+            self.length += 1 # direct reference
     
     # optimise by evaluating index versus length
     def insert(self, index, data):
@@ -82,7 +82,8 @@ class LinkedList:
     def delete_first(self):
         if self.get_head() == None:
             return False
-        self.set_head(self.get_head().get_next())
+        self.set_head(self.get_head().get_next(), False)
+        self.length -= 1
         return True
     
     def delete_last(self):
@@ -90,6 +91,7 @@ class LinkedList:
             return False
         self.tail = self.tail.get_prev()
         self.tail.set_next(None)
+        self.length -= 1
         return True
     
     def delete(self, data, delete_all = False):
@@ -125,5 +127,11 @@ class LinkedList:
         while pointer != None:
             print pointer.get_data(),
             pointer = pointer.get_next()
-        print None
+        print None,
+        print self.get_length(),
+        if self.get_length() > 0:
+            print self.get_head().get_data(),
+            print self.get_tail().get_data()
+        else:
+            print
         
