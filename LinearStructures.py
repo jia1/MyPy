@@ -111,8 +111,77 @@ class LinkedList:
         self.length -= 1
         return True
     
-    def delete(self, data):
-        pass
+    def delete(self, data, delete_all = False, from_back = False):
+        if not delete_all:
+            if not from_back:
+                pointer = self.get_head()
+                if pointer.get_data() == data:
+                    return self.delete_first()
+                pointer = pointer.get_next()
+                if pointer == None:
+                    return deleted
+                while pointer.get_next() != None:
+                    if pointer.get_data() == data:
+                        pointer.get_prev().set_next(pointer.get_next())
+                        pointer.get_next().set_prev(pointer.get_prev())
+                        self.length -= 1
+                        return True
+                    pointer = pointer.get_next()
+                if pointer.get_data() == data:
+                    return self.delete_last()
+            else:
+                pointer = self.get_tail()
+                if pointer.get_data() == data:
+                    return self.delete_last()
+                pointer = pointer.get_prev()
+                if pointer == None:
+                    return deleted
+                while pointer.get_prev() != None:
+                    if pointer.get_data() == data:
+                        pointer.get_prev ().set_next(pointer.get_next())
+                        pointer.get_next().set_prev(pointer.get_prev())
+                        self.length -= 1
+                        return True
+                    pointer = pointer.get_prev()
+                if pointer.get_data() == data:
+                    return self.delete_first()
+        else:
+            if not from_back:
+                pointer = self.get_head()
+                deleted = False
+                if pointer.get_data() == data:
+                    deleted = self.delete_first()
+                pointer = pointer.get_next()
+                if pointer == None:
+                    return deleted
+                while pointer.get_next() != None:
+                    if pointer.get_data() == data:
+                        pointer.get_prev().set_next(pointer.get_next())
+                        pointer.get_next().set_prev(pointer.get_prev())
+                        self.length -= 1
+                        deleted = True
+                    pointer = pointer.get_next()
+                if pointer.get_data() == data:
+                    deleted = self.delete_last()
+                return deleted
+            else:
+                pointer = self.get_tail()
+                deleted = False
+                if pointer.get_data() == data:
+                    deleted = self.delete_last()
+                pointer = pointer.get_prev()
+                if pointer == None:
+                    return deleted
+                while pointer.get_prev() != None:
+                    if pointer.get_data() == data:
+                        pointer.get_prev ().set_next(pointer.get_next())
+                        pointer.get_next().set_prev(pointer.get_prev())
+                        self.length -= 1
+                        deleted = True
+                    pointer = pointer.get_prev()
+                if pointer.get_data() == data:
+                    deleted = self.delete_first()
+                return deleted
     
     def delete_at(self, index):
         last_index = self.get_length() - 1
