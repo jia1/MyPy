@@ -35,6 +35,7 @@ class ListNode:
     def set_next(self, next_node): self.next_node = next_node
     def set_prev(self, prev_node): self.prev_node = prev_node
 
+
 ############### [CLASS] LinkedList ###############
 ##################################################
 # Attributes:   ListNode head
@@ -80,6 +81,9 @@ class LinkedList:
     # Update the head attribute of the LinkedList object
     # Default option for update_tail is True
     # i.e. Finite calls of get_next() on head will reach tail
+    # U/C:
+    # self.set_head(new_head, False) -> Call self.length += 1
+    # self.set_head(new_head, True) -> self.length is updated
     def set_head(self, head, update_tail = True):
         self.head = head                # direct reference
         new_length = 0
@@ -105,7 +109,7 @@ class LinkedList:
             self.get_head().set_prev(new_head)
             new_head.set_next(self.head)
             self.set_head(new_head, False)
-        self.length += 1
+            self.length += 1 # direct reference
     
     def append(self, tail_data):
         new_tail = ListNode(tail_data)
@@ -166,7 +170,7 @@ class LinkedList:
     def delete_last(self):
         if self.get_tail() == None:
             return False
-        self.tail = self.tail.get_prev()
+        self.tail = self.tail.get_prev() # direct reference
         self.tail.set_next(None) # remove pointer to the old tail node
         self.length -= 1
         return True
@@ -322,3 +326,6 @@ class LinkedList:
         else:
             print
         
+class Stack(LinkedList):
+    def __init__(self):
+        pass
