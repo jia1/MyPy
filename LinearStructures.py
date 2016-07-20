@@ -116,7 +116,7 @@ class LinkedList:
         if self.get_head() == None:
             self.set_head(new_tail, True) # update tail as itself
         else:
-            self.get_tail().set_next(new_tail) # set next of current tail
+            self.get_tail().set_next(new_tail) # set next of curr tail
             new_tail.set_prev(self.get_tail()) # set prev of new tail
             self.tail = new_tail    # direct reference
             self.length += 1        # direct reference
@@ -155,25 +155,27 @@ class LinkedList:
             node.set_next(pointer)
             pointer.get_prev().set_next(node)
             pointer.set_prev(node)
-            self.length += 1
+            self.length += 1 # direct reference
             return True
 
     # Similar to poll first
     def delete_first(self):
-        if self.get_head() == None:
-            return False
-        self.set_head(self.get_head().get_next(), False)
-        self.length -= 1
-        return True
+        popped = self.get_head()
+        if popped == None:
+            return popped
+        self.set_head(popped.get_next(), False)
+        self.length -= 1 # direct reference
+        return popped.get_data()
 
     # Similar to poll last
     def delete_last(self):
-        if self.get_tail() == None:
-            return False
-        self.tail = self.tail.get_prev() # direct reference
-        self.tail.set_next(None) # remove pointer to the old tail node
-        self.length -= 1
-        return True
+        popped = self.get_tail()
+        if popped == None:
+            return popped
+        self.tail = self.get_tail().get_prev() # direct reference
+        self.get_tail().set_next(None)  # remove ptr to old tail node
+        self.length -= 1                # direct reference
+        return popped.get_data()
 
     # Deletes the first node with the same value as data
     #
@@ -195,7 +197,7 @@ class LinkedList:
                         # After:    old previous <-> old next
                         pointer.get_prev().set_next(pointer.get_next())
                         pointer.get_next().set_prev(pointer.get_prev())
-                        self.length -= 1
+                        self.length -= 1 # direct reference
                         return True # exit
                     pointer = pointer.get_next()
                 if pointer.get_data() == data:
@@ -209,9 +211,9 @@ class LinkedList:
                     return deleted # exit
                 while pointer.get_prev() != None:
                     if pointer.get_data() == data:
-                        pointer.get_prev ().set_next(pointer.get_next())
+                        pointer.get_prev().set_next(pointer.get_next())
                         pointer.get_next().set_prev(pointer.get_prev())
-                        self.length -= 1
+                        self.length -= 1 # direct reference
                         return True
                     pointer = pointer.get_prev()
                 if pointer.get_data() == data:
@@ -229,7 +231,7 @@ class LinkedList:
                     if pointer.get_data() == data:
                         pointer.get_prev().set_next(pointer.get_next())
                         pointer.get_next().set_prev(pointer.get_prev())
-                        self.length -= 1
+                        self.length -= 1 # direct reference
                         deleted = True
                     pointer = pointer.get_next()
                 if pointer.get_data() == data:
@@ -245,9 +247,9 @@ class LinkedList:
                     return deleted
                 while pointer.get_prev() != None:
                     if pointer.get_data() == data:
-                        pointer.get_prev ().set_next(pointer.get_next())
+                        pointer.get_prev().set_next(pointer.get_next())
                         pointer.get_next().set_prev(pointer.get_prev())
-                        self.length -= 1
+                        self.length -= 1 # direct reference
                         deleted = True
                     pointer = pointer.get_prev()
                 if pointer.get_data() == data:
@@ -283,7 +285,7 @@ class LinkedList:
             new_next = pointer.get_next()     
             pointer.get_next().set_prev(pointer.get_prev())
             pointer.get_prev().set_next(new_next)
-            self.length -= 1
+            self.length -= 1 # direct reference
             return True
     
     def reverse(self):
@@ -313,19 +315,44 @@ class LinkedList:
     # 3 is the length
     # 2 is the head
     # 6 is the tail
-    def print_list(self):
-        pointer = self.get_head()
-        while pointer != None:
-            print pointer.get_data(),
-            pointer = pointer.get_next()
-        print None,
-        print self.get_length(),
-        if self.get_length() > 0: # if not None, print the head and tail
-            print self.get_head().get_data(),
-            print self.get_tail().get_data()
+    def print_list(self, from_tail = False):
+        if not from_tail:
+            pointer = self.get_head()
+            while pointer != None:
+                print pointer.get_data(),
+                pointer = pointer.get_next()
+            print None,
+            print self.get_length(),
+            if self.get_length() > 0: # if not None, print head and tail
+                print self.get_head().get_data(),
+                print self.get_tail().get_data()
+            else:
+                print
         else:
-            print
-        
+            pointer = self.get_tail()
+            while pointer != None:
+                print pointer.get_data(),
+                pointer = pointer.get_prev()
+            print None,
+            print self.get_length(),
+            if self.get_length() > 0: # if not None, print head and tail
+                print self.get_tail().get_data(),
+                print self.get_head().get_data()
+            else:
+                print
+            
 class Stack(LinkedList):
     def __init__(self):
         pass
+    
+    def push(self, data):
+        return self.prepend(data)
+    
+    def pop(self):
+        return self.delete_first()
+    
+    def peek(self):
+        return self.get_head().get_data()
+    
+    def print_stack(self):
+        self.print_list()
