@@ -440,7 +440,24 @@ class LinkedList:
                 print self.get_head().get_data()
             else:
                 print
-            
+
+
+################# [CLASS] Stack ##################
+##################################################
+# 
+# Attributes:   Inherited from LinkedList
+# Init:         Inherited from LinkedList
+#
+# Methods:      1. Inherited from LinkedList: is_empty, clear
+#               (other methods not stated above should not be called)
+# 
+#               2. Stack methods derived from LinkedList methods
+#           GET peek        -> data or None
+#           ADD push        -> void
+#           DEL pop         -> ListNode head or None
+#           OUT print_stack -> void
+# 
+##################################################
 class Stack(LinkedList):
     def __init__(self):
         pass
@@ -452,7 +469,39 @@ class Stack(LinkedList):
         return self.delete_first()
     
     def peek(self):
+        if self.is_empty():
+            return None
         return self.get_head().get_data()
     
     def print_stack(self):
+        self.print_list()
+
+
+################# [CLASS] Deque ##################
+##################################################
+# 
+# Attributes:   Inherited from LinkedList
+# Init:         Inherited from LinkedList
+#
+# Methods:      1. Inherited from LinkedList: is_empty, clear
+#               (other methods not stated above should not be called)
+# 
+#               2. Deque methods derived from LinkedList methods
+#           GET get_first   -> data or None
+#               get_last    -> data or None
+#  
+#           ADD offer_first -> void
+#               offer_last  -> void
+# 
+#           DEL poll_first  -> ListNode head or None
+#               poll_last   -> ListNode tail or None
+# 
+#           OUT print_deque -> void
+# 
+##################################################
+class Deque(LinkedList):
+    def __init__(self):
+        pass
+    
+    def print_deque(self):
         self.print_list()
