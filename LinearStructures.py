@@ -1,5 +1,6 @@
 ################ [CLASS] ListNode ################
 ##################################################
+# 
 # Attributes:   data
 #               ListNode next_node
 #               ListNode prev_node
@@ -17,6 +18,7 @@
 # Implemented:  [CLASS] LinkedList
 #               [CLASS] Stack
 #               [CLASS] Deque
+# 
 ##################################################
 class ListNode:
     data = None
@@ -38,33 +40,77 @@ class ListNode:
 
 ############### [CLASS] LinkedList ###############
 ##################################################
+# 
 # Attributes:   ListNode head
 #               ListNode tail
 #               int length
 #
 # Init:         int length = 0
 #
-# Methods:  GET get_head()      -> ListNode head
-#               get_tail()      -> ListNode tail
-#               get_length()    -> int length
-#           SET set_head()
+# Methods:  GET get_head()              -> ListNode head or None
+#               get_tail()              -> ListNode tail or None
+#               get_length()            -> int length
+#           SET set_head()              -> void
 #           
-#           ADD prepend(data)
-#               append(data)
-#               insert(index, data)
+#           ADD prepend(data)           -> void
+#               append(data)            -> void
+#               insert(index, data)     -> boolean
 #           
-#           DEL delete_first()
-#               delete_last()
-#               delete(data) + 2 other options
-#               delete_at(index)
+#           DEL delete_first()          -> ListNode head or None
+#               delete_last()           -> ListNode tail or None
+#               delete(data) + 2 opt.   -> boolean
+#               delete_at(index)        -> boolean
 #           
-#           REV reverse()
+#           REV reverse()               -> void
 #           
-#           OUT print_list()
+#           OUT print_list()            -> void
 #
+# 
+# Method dependencies: (method <- calls)
+# 
+# is_empty  <- get_head
+#
+# contains  <- get_head,
+#              ListNode: get_data, get_next
+#
+# get_node  <- ALL GET,
+#              ListNode: get_next, get_prev
+#
+# clear     <- set_head
+#
+# prepend   <- get_head, set_head,
+#              ListNode: __init__, set_next, set_prev
+#
+# append    <- get_head, set_head,
+#              ListNode: __init__, set_next, set_prev
+# 
+# insert    <- prepend, append, ALL GET,
+#              ListNode: ALL except get_data and set_data
+# 
+# delete_first  <- is_empty, get_head, set_head,
+#                  ListNode: get_data, get_next
+# 
+# delete_last   <- is_empty, get_tail,
+#                  ListNode: ALL GET, NO SET
+# 
+# delete    <- delete_first, delete_last, is_empty, get_head, get_tail,
+#              ListNode: ALL except set_data
+# 
+# delete_at <- delete_first, delete_last, ALL GET,
+#              ListNode: ALL except get_data and set_data
+# 
+# reverse   <- get_length, get_head, set_head
+#              ListNode: ALL except get_data and set_data
+# 
+# print_list    <- ALL GET,
+#                  ListNode: ALL GET
+# 
+# direct reference - summons the attributes directly without GET method
+# 
 # Used by:  [CLASS] LinkedList
 #           [CLASS] Stack
 #           [CLASS] Deque
+# 
 ##################################################
 class LinkedList:
     head = None
@@ -84,6 +130,7 @@ class LinkedList:
     # U/C:
     # self.set_head(new_head, False) -> Call self.length += 1
     # self.set_head(new_head, True) -> self.length is updated
+    # Does not return a value (void)
     def set_head(self, head, update_tail = True):
         self.head = head                # direct reference
         new_length = 0
@@ -101,6 +148,47 @@ class LinkedList:
                 self.tail = pointer             # direct reference
                 self.length = new_length + 1    # direct reference
     
+    # Checks if the LinkedList object is empty (no head node)
+    # Returns either True or False (boolean)
+    def is_empty(self):
+        return self.get_head() == None
+    
+    # Checks if the LinkedList object has any node that contains data
+    # Returns either True or False (boolean)
+    def contains(self, data):
+        pointer = self.get_head()
+        while pointer != None:
+            if pointer.get_data() == data:
+                return True
+            pointer = pointer.get_next()
+        return False
+    
+    # Returns either the node at index (ListNode)
+    # or None (index out of bounds)
+    def get_node(self, index):
+        if index >= self.get_length():
+            return None
+        else:
+            last_index = self.get_length() - 1
+            if index <= last_index // 2:
+                iteration = 0
+                pointer = self.get_head()
+                while iteration < index:
+                    pointer = pointer.get_next()
+                    iteration += 1
+            else:
+                iteration = last_index
+                pointer = self.get_tail()
+                while iteration > index:
+                    pointer = pointer.get_prev()
+                    iteration -= 1
+            return pointer
+    
+    # Does not return a value (void)
+    def clear(self):
+        self.set_head(self, None)
+    
+    # Does not return a value (void)
     def prepend(self, head_data):
         new_head = ListNode(head_data)
         if self.get_head() == None:
@@ -111,6 +199,7 @@ class LinkedList:
             self.set_head(new_head, False)
             self.length += 1 # direct reference
     
+    # Does not return a value (void)
     def append(self, tail_data):
         new_tail = ListNode(tail_data)
         if self.get_head() == None:
@@ -121,6 +210,7 @@ class LinkedList:
             self.tail = new_tail    # direct reference
             self.length += 1        # direct reference
     
+    # Returns either True or False (boolean)
     def insert(self, index, data): 
         last_index = self.get_length() - 1
         if index > last_index:      # if index out of bounds
@@ -144,7 +234,7 @@ class LinkedList:
             else:
                 iteration = last_index
                 pointer = self.get_tail()
-                while iteration > last_index:
+                while iteration > index:
                     pointer = pointer.get_prev()
                     iteration -= 1
             # pointer is pointing to the ListNode at index
@@ -159,37 +249,43 @@ class LinkedList:
             return True
 
     # Similar to poll first
+    # Return ListNode data if pop is called on a non-empty LinkedList
     def delete_first(self):
+        if self.is_empty():
+            return None
         popped = self.get_head()
-        if popped == None:
-            return popped
         self.set_head(popped.get_next(), False)
         self.length -= 1 # direct reference
         return popped.get_data()
-
+    
+    # Return ListNode data if pop is called on a non-empty LinkedList
     # Similar to poll last
     def delete_last(self):
+       if self.is_empty():
+            return None
         popped = self.get_tail()
-        if popped == None:
-            return popped
-        self.tail = self.get_tail().get_prev() # direct reference
+        self.tail = popped.get_prev()   # direct reference
         self.get_tail().set_next(None)  # remove ptr to old tail node
         self.length -= 1                # direct reference
         return popped.get_data()
 
     # Deletes the first node with the same value as data
-    #
+    # 
     # Comes with 2 additional options
     # delete_all:   Every ListNode.data == data will be deleted
     # from_tail:    LinkedList will be parsed from the back
+    # 
+    # Returns either True or False (boolean)
     def delete(self, data, delete_all = False, from_tail = False):
-        if not delete_all:
+        if self.is_empty():
+            return False
+        elif not delete_all:
             if not from_tail: # delete_all: False, from_tail: False
                 pointer = self.get_head() # parse from the head
                 if pointer.get_data() == data:
                     return self.delete_first() # exit
                 pointer = pointer.get_next()
-                if pointer == None:
+                if pointer.is_empty():
                     return deleted # exit
                 while pointer.get_next() != None:
                     if pointer.get_data() == data:
@@ -207,7 +303,7 @@ class LinkedList:
                 if pointer.get_data() == data:
                     return self.delete_last() # exit
                 pointer = pointer.get_prev()
-                if pointer == None:
+                if pointer.is_empty():
                     return deleted # exit
                 while pointer.get_prev() != None:
                     if pointer.get_data() == data:
@@ -225,7 +321,7 @@ class LinkedList:
                 if pointer.get_data() == data:
                     deleted = self.delete_first()
                 pointer = pointer.get_next()
-                if pointer == None:
+                if pointer.is_empty():
                     return deleted
                 while pointer.get_next() != None:
                     if pointer.get_data() == data:
@@ -243,7 +339,7 @@ class LinkedList:
                 if pointer.get_data() == data:
                     deleted = self.delete_last()
                 pointer = pointer.get_prev()
-                if pointer == None:
+                if pointer.is_empty():
                     return deleted
                 while pointer.get_prev() != None:
                     if pointer.get_data() == data:
@@ -256,6 +352,7 @@ class LinkedList:
                     deleted = self.delete_first()
                 return deleted # exit
     
+    # Returns either True or False (boolean)
     def delete_at(self, index):
         last_index = self.get_length() - 1
         if index > last_index:
@@ -288,6 +385,7 @@ class LinkedList:
             self.length -= 1 # direct reference
             return True
     
+    # Does not return a value (void)
     def reverse(self):
         pointer = self.get_head()
         # Step 01 - old head node -> new tail node
@@ -315,6 +413,8 @@ class LinkedList:
     # 3 is the length
     # 2 is the head
     # 6 is the tail
+    #
+    # Does not return a value (void)
     def print_list(self, from_tail = False):
         if not from_tail:
             pointer = self.get_head()
