@@ -65,23 +65,23 @@ class ListNode:
 #           REV reverse()               -> void
 #           
 #           OUT print_list()            -> void
-#
+# 
 # 
 # Method dependencies: (method <- calls)
+# 
+# clear     <- set_head
 # 
 # is_empty  <- get_head
 #
 # contains  <- get_head,
 #              ListNode: get_data, get_next
-#
+# 
 # get_node  <- ALL GET,
 #              ListNode: get_next, get_prev
-#
-# clear     <- set_head
-#
+# 
 # prepend   <- get_head, set_head,
 #              ListNode: __init__, set_next, set_prev
-#
+# 
 # append    <- get_head, set_head,
 #              ListNode: __init__, set_next, set_prev
 # 
@@ -150,6 +150,10 @@ class LinkedList:
                 self.tail = pointer             # direct reference
                 self.length = new_length + 1    # direct reference
     
+    # Does not return a value (void)
+    def clear(self):
+        self.set_head(self, None)
+    
     # Checks if the LinkedList object is empty (no head node)
     # Returns either True or False (boolean)
     def is_empty(self):
@@ -185,10 +189,6 @@ class LinkedList:
                     pointer = pointer.get_prev()
                     iteration -= 1
             return pointer
-    
-    # Does not return a value (void)
-    def clear(self):
-        self.set_head(self, None)
     
     # Does not return a value (void)
     def prepend(self, head_data):
