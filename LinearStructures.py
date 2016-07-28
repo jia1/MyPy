@@ -1,5 +1,5 @@
-################ [CLASS] ListNode ################
-##################################################
+####################### [CLASS] ListNode #######################
+################################################################
 # 
 # Attributes:   data
 #               ListNode next_node
@@ -19,7 +19,8 @@
 #               [CLASS] Stack
 #               [CLASS] Deque
 # 
-##################################################
+################################################################
+
 class ListNode:
     data = None
     next_node = None
@@ -33,13 +34,13 @@ class ListNode:
     def get_next(self): return self.next_node
     def get_prev(self): return self.prev_node
     
-    def set_data(self, data): self.data = data
-    def set_next(self, next_node): self.next_node = next_node
-    def set_prev(self, prev_node): self.prev_node = prev_node
+    def set_data(self, data):       self.data = data
+    def set_next(self, next_node):  self.next_node = next_node
+    def set_prev(self, prev_node):  self.prev_node = prev_node
 
 
-############### [CLASS] LinkedList ###############
-##################################################
+###################### [CLASS] LinkedList ######################
+################################################################
 # 
 # Attributes:   ListNode head
 #               ListNode tail
@@ -111,7 +112,8 @@ class ListNode:
 #           [CLASS] Stack
 #           [CLASS] Deque
 # 
-##################################################
+################################################################
+
 class LinkedList:
     head = None
     tail = None
@@ -120,9 +122,9 @@ class LinkedList:
     def __init__(self):
         self.length = 0
     
-    def get_head(self): return self.head
-    def get_tail(self): return self.tail
-    def get_length(self): return self.length
+    def get_head(self):     return self.head
+    def get_tail(self):     return self.tail
+    def get_length(self):   return self.length
     
     # Update the head attribute of the LinkedList object
     # Default option for update_tail is True
@@ -442,8 +444,8 @@ class LinkedList:
                 print
 
 
-################# [CLASS] Stack ##################
-##################################################
+######################## [CLASS] Stack #########################
+################################################################
 # 
 # Attributes:   Inherited from LinkedList
 # Init:         Inherited from LinkedList
@@ -457,7 +459,8 @@ class LinkedList:
 #           DEL pop         -> ListNode head or None
 #           OUT print_stack -> void
 # 
-##################################################
+################################################################
+
 class Stack(LinkedList):
     def __init__(self):
         pass
@@ -477,8 +480,8 @@ class Stack(LinkedList):
         self.print_list()
 
 
-################# [CLASS] Deque ##################
-##################################################
+######################## [CLASS] Deque #########################
+################################################################
 # 
 # Attributes:   Inherited from LinkedList
 # Init:         Inherited from LinkedList
@@ -498,7 +501,8 @@ class Stack(LinkedList):
 # 
 #           OUT print_deque -> void
 # 
-##################################################
+################################################################
+
 class Deque(LinkedList):
     def __init__(self):
         pass
