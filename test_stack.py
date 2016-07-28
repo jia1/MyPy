@@ -1,5 +1,4 @@
-import math
-import LinearStructures
+from LinearStructures import *
 
 data_list = []
 for p in xrange(6):
@@ -7,7 +6,7 @@ for p in xrange(6):
 
 print data_list
 
-my_list = LinearStructures.Stack()
+my_list = Stack()
 my_list.print_list()
 my_list.push(data_list[0])
 my_list.print_list()

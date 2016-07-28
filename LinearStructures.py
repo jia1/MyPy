@@ -261,7 +261,7 @@ class LinkedList:
     # Return ListNode data if pop is called on a non-empty LinkedList
     # Similar to poll last
     def delete_last(self):
-       if self.is_empty():
+        if self.is_empty():
             return None
         popped = self.get_tail()
         self.tail = popped.get_prev()   # direct reference
@@ -285,7 +285,7 @@ class LinkedList:
                 if pointer.get_data() == data:
                     return self.delete_first() # exit
                 pointer = pointer.get_next()
-                if pointer.is_empty():
+                if pointer == None:
                     return deleted # exit
                 while pointer.get_next() != None:
                     if pointer.get_data() == data:
@@ -303,7 +303,7 @@ class LinkedList:
                 if pointer.get_data() == data:
                     return self.delete_last() # exit
                 pointer = pointer.get_prev()
-                if pointer.is_empty():
+                if pointer == None:
                     return deleted # exit
                 while pointer.get_prev() != None:
                     if pointer.get_data() == data:
@@ -321,7 +321,7 @@ class LinkedList:
                 if pointer.get_data() == data:
                     deleted = self.delete_first()
                 pointer = pointer.get_next()
-                if pointer.is_empty():
+                if pointer == None:
                     return deleted
                 while pointer.get_next() != None:
                     if pointer.get_data() == data:
@@ -339,7 +339,7 @@ class LinkedList:
                 if pointer.get_data() == data:
                     deleted = self.delete_last()
                 pointer = pointer.get_prev()
-                if pointer.is_empty():
+                if pointer == None:
                     return deleted
                 while pointer.get_prev() != None:
                     if pointer.get_data() == data:
