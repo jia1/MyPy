@@ -7,14 +7,14 @@
 #
 # Init:         data
 #               ListNode next_node = None
-#
+# 
 # Methods:  GET get_data()  -> data
 #               get_next()  -> ListNode next_node
 #               get_prev()  -> ListNode prev_node
 #           SET set_data()
 #               set_next()
 #               set_prev()
-#
+# 
 # Implemented:  [CLASS] LinkedList
 #               [CLASS] Stack
 #               [CLASS] Deque
@@ -45,9 +45,9 @@ class ListNode:
 # Attributes:   ListNode head
 #               ListNode tail
 #               int length
-#
+# 
 # Init:         int length = 0
-#
+# 
 # Methods:  GET get_head()              -> ListNode head or None
 #               get_tail()              -> ListNode tail or None
 #               get_length()            -> int length
@@ -249,7 +249,7 @@ class LinkedList:
             pointer.set_prev(node)
             self.length += 1 # direct reference
             return True
-
+    
     # Similar to poll first
     # Return ListNode data if pop is called on a non-empty LinkedList
     def delete_first(self):
@@ -270,7 +270,7 @@ class LinkedList:
         self.get_tail().set_next(None)  # remove ptr to old tail node
         self.length -= 1                # direct reference
         return popped.get_data()
-
+    
     # Deletes the first node with the same value as data
     # 
     # Comes with 2 additional options
