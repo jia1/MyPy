@@ -450,7 +450,7 @@ class LinkedList:
 # Attributes:   Inherited from LinkedList
 # Init:         Inherited from LinkedList
 #
-# Methods:      1. Inherited from LinkedList: is_empty, clear
+# Methods:      1. Inherited from LinkedList: clear, is_empty
 #               (other methods not stated above should not be called)
 # 
 #               2. Stack methods derived from LinkedList methods
@@ -486,7 +486,7 @@ class Stack(LinkedList):
 # Attributes:   Inherited from LinkedList
 # Init:         Inherited from LinkedList
 #
-# Methods:      1. Inherited from LinkedList: is_empty, clear
+# Methods:      1. Inherited from LinkedList: clear, is_empty
 #               (other methods not stated above should not be called)
 # 
 #               2. Deque methods derived from LinkedList methods
@@ -506,6 +506,28 @@ class Stack(LinkedList):
 class Deque(LinkedList):
     def __init__(self):
         pass
+    
+    def get_first(self):
+        if self.is_empty():
+            return None
+        return self.get_head().get_data()
+    
+    def get_last(self):
+        if self.is_empty():
+            return None
+        return self.get_tail().get_data()
+    
+    def offer_first(self, data):
+        return self.prepend(data)
+    
+    def offer_last(self, data):
+        return self.append(data)
+    
+    def poll_first(self):
+        return self.delete_first()
+    
+    def poll_last(self):
+        return self.delete_last()
     
     def print_deque(self):
         self.print_list()
