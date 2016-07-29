@@ -51,33 +51,39 @@ class ListNode:
 # Methods:  GET get_head()              -> ListNode head or None
 #               get_tail()              -> ListNode tail or None
 #               get_length()            -> int length
+#               get_node(index)         -> ListNode or None
+# 
 #           SET set_head()              -> void
-#           
+#               clear()                 -> void
+# 
+#        SEARCH is_empty()              -> boolean
+#               contains(data)          -> boolean
+# 
 #           ADD prepend(data)           -> void
 #               append(data)            -> void
 #               insert(index, data)     -> boolean
-#           
+# 
 #           DEL delete_first()          -> ListNode head or None
 #               delete_last()           -> ListNode tail or None
 #               delete(data) + 2 opt.   -> boolean
 #               delete_at(index)        -> boolean
-#           
+# 
 #           REV reverse()               -> void
-#           
+# 
 #           OUT print_list()            -> void
 # 
 # 
 # Method dependencies: (method <- calls)
 # 
+# get_node  <- ALL GET,
+#              ListNode: get_next, get_prev
+# 
 # clear     <- set_head
 # 
 # is_empty  <- get_head
-#
+# 
 # contains  <- get_head,
 #              ListNode: get_data, get_next
-# 
-# get_node  <- ALL GET,
-#              ListNode: get_next, get_prev
 # 
 # prepend   <- get_head, set_head,
 #              ListNode: __init__, set_next, set_prev
@@ -126,6 +132,27 @@ class LinkedList:
     def get_tail(self):     return self.tail
     def get_length(self):   return self.length
     
+    # Returns either the node at index (ListNode)
+    # or None (index out of bounds)
+    def get_node(self, index):
+        if index >= self.get_length():
+            return None
+        else:
+            last_index = self.get_length() - 1
+            if index <= last_index // 2:
+                iteration = 0
+                pointer = self.get_head()
+                while iteration < index:
+                    pointer = pointer.get_next()
+                    iteration += 1
+            else:
+                iteration = last_index
+                pointer = self.get_tail()
+                while iteration > index:
+                    pointer = pointer.get_prev()
+                    iteration -= 1
+            return pointer
+    
     # Update the head attribute of the LinkedList object
     # Default option for update_tail is True
     # i.e. Finite calls of get_next() on head will reach tail
@@ -168,27 +195,6 @@ class LinkedList:
                 return True
             pointer = pointer.get_next()
         return False
-    
-    # Returns either the node at index (ListNode)
-    # or None (index out of bounds)
-    def get_node(self, index):
-        if index >= self.get_length():
-            return None
-        else:
-            last_index = self.get_length() - 1
-            if index <= last_index // 2:
-                iteration = 0
-                pointer = self.get_head()
-                while iteration < index:
-                    pointer = pointer.get_next()
-                    iteration += 1
-            else:
-                iteration = last_index
-                pointer = self.get_tail()
-                while iteration > index:
-                    pointer = pointer.get_prev()
-                    iteration -= 1
-            return pointer
     
     # Does not return a value (void)
     def prepend(self, head_data):
