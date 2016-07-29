@@ -50,3 +50,6 @@ print my_tree.get_root().get_weight()
 '''
 print "Inorder\t",
 my_tree.print_in_order()
+print 
+for i in xrange(0, 32, 5):
+    print i, my_tree.contains(i),

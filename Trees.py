@@ -51,6 +51,17 @@ class BinarySearchTree:
     
     def is_empty(self):         return self.get_root() == None
     
+    def contains(self, data):
+        pointer = self.get_root()
+        while pointer != None:
+            if data < pointer.get_data():
+                pointer = pointer.get_left()
+            elif data > pointer.get_data():
+                pointer = pointer.get_right()
+            else:
+                return True
+        return False
+    
     def insert(self, data):
         node = TreeNode(data)
         if self.is_empty():
@@ -73,6 +84,45 @@ class BinarySearchTree:
                         break
                     else:
                         pointer = pointer.get_right()
+    
+    def delete(self, data):
+        pointer = self.get_root()
+        right_child = False
+        while pointer != None:
+            if data < pointer.get_data():
+                pointer = pointer.get_left()
+                right_child = False
+            elif data > pointer.get_data():
+                pointer = pointer.get_right()
+                right_child = True
+            else:
+                while pointer.get_left().get_data() == data:
+                    pointer = pointer.get_left()
+                if pointer.is_terminal():
+                    if right_child:
+                        pointer.get_parent().set_right(None)
+                    else:
+                        pointer.get_parent().set_left(None)
+                elif pointer.has_children():
+                    # incomplete
+                    pass
+                else:
+                    if pointer.get_left() == None:
+                        if right_child:
+                            pointer.get_parent().set_right(
+                                pointer.get_right())
+                        else:
+                            pointer.get_parent().set_left(
+                                pointer.get_right())
+                    else:
+                        if right_child:
+                            pointer.get_parent().set_right(
+                                pointer.get_left())
+                        else:
+                            pointer.get_parent().set_left(
+                                pointer.get_left())
+                return True
+        return False
     
     def print_in_order(self):
         pointer = self.get_root()
