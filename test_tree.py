@@ -50,6 +50,37 @@ print my_tree.get_root().get_weight()
 '''
 print "Inorder\t",
 my_tree.print_in_order()
-print 
+print
+
+# 1
+node = my_tree.get_root().get_left().get_left().get_left()
+print "Successor of root with data = %d is node with data = %d" % (
+node.get_data(), node.get_successor().get_data())
+
+# 7
+node = my_tree.get_root().get_left().get_right().get_right().get_right()
+print "Successor of root with data = %d is node with data = %d" % (
+node.get_data(), node.get_successor().get_data())
+
+# 8
+node = my_tree.get_root()
+print "Successor of root with data = %d is node with data = %d" % (
+node.get_data(), node.get_successor().get_data())
+
+# 15
+node = my_tree.get_root().get_right().get_right()
+print "Successor of root with data = %d is node with data = %d" % (
+node.get_data(),
+-1 if node.get_successor() == None else node.get_successor())
+
 for i in xrange(0, 32, 5):
     print i, my_tree.contains(i),
+print
+
+my_tree.delete(11)
+# my_tree.delete(12)
+my_tree.delete(15)
+
+print "Inorder\t",
+my_tree.print_in_order()
+print
