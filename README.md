@@ -21,3 +21,9 @@
         - O(n)
         - No iterative loops
         - No nested functions
+- Maximum Difference in Array (HackerRank)
+    - Given an array of integers, a, find the maximum difference between
+    two elements, a[i] and a[j], given the following conditions below:
+        1. i < j
+        2. a[j] - a[i] > 0
+    - Return -1 if there is no such maximum difference.
