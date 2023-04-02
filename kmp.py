@@ -1,9 +1,9 @@
 # Knuth-Morris-Pratt algorithm
 # Not test-run yet
 def kmp(t, s):
-    if not s and not t:
+    if not s:
         return 0
-    if not s or not t:
+    if not t:
         return -1
     ls, lt = len(s), len(t)
     ps, pt = 0, 0
@@ -18,7 +18,7 @@ def kmp(t, s):
             pt += 1
         else:
             ps = 0
-            pt = jump_to.pop(0) if jump_to else pt
+            pt = jump_to.pop(0) if jump_to else pt+1
             starting_at = pt
     if ps >= ls:
         return starting_at
