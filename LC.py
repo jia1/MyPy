@@ -726,6 +726,39 @@ class Solution:
             curr = curr.next
         return nodes[(len(nodes) + l) // 2]
 
+# 994. Rotting Oranges
+class Solution:
+    def orangesRotting(self, grid: List[List[int]]) -> int:
+        m, n = len(grid), len(grid[0])
+        f, r = set(), set()
+        for i in range(m):
+            for j in range(n):
+                o = grid[i][j]
+                match o:
+                    case 1:
+                        f.add((i, j))
+                    case 2:
+                        r.add((i, j))
+        seen = set()
+        def is_valid(c):
+            x, y = c
+            return c not in seen and 0 <= x < m and 0 <= y < n and grid[x][y] == 1
+        t = 0
+        while r:
+            if not f:
+                break
+            fringes = []
+            for coord in r:
+                seen.add(coord)
+                i, j = coord
+                nodes = [(i-1, j), (i, j+1), (i+1, j), (i, j-1)]
+                fringe = list(filter(is_valid, nodes))
+                fringes.extend(fringe)
+            f.difference_update(fringes)
+            r = set(fringes)
+            t += 1
+        return t if not f else -1
+
 # 1029. Two City Scheduling
 class Solution:
     def twoCitySchedCost(self, costs: List[List[int]]) -> int:
